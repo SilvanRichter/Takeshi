@@ -1,0 +1,4 @@
+name: Takeshi
+version: '${project.version}'
+main: de.silvan.takeshi.Takeshi
+api-version: '1.20'
