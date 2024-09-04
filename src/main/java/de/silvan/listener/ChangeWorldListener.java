@@ -21,7 +21,6 @@ public class ChangeWorldListener implements Listener {
                 player.teleport(new Location(Bukkit.getWorld("LOBBY"), 0, 100, 0));
             }
         }
-
         if (player.getWorld().getName().contains("TAKESHI")) {
             if (Takeshi.instance.getBar().getBarPlayer1().getPlayers().isEmpty()) Takeshi.instance.getBar().addPlayer1(player);
             else if (Takeshi.instance.getBar().getBarPlayer2().getPlayers().isEmpty()) Takeshi.instance.getBar().addPlayer2(player);
