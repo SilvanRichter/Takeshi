@@ -21,7 +21,7 @@ public class WarpCommand implements CommandExecutor {
                         player.teleport(new Location(Bukkit.getWorld("LOBBY"), 0, 100, 0));
                         return true;
                     case "TAKESHI_1":
-                        player.teleport(new Location(Bukkit.getWorld("TAKESHI_1"), 0, 100, 0));
+                        player.teleport(new Location(Bukkit.getWorld("TAKESHI_1"), -1, 112, 2));
                         return true;
                     default:
                         sender.sendMessage(ChatColor.RED + "/world <server>");

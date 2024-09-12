@@ -1,5 +1,6 @@
 package de.silvan.listener;
 
+import de.silvan.progressbar.ProgressBar;
 import de.silvan.takeshi.Takeshi;
 
 import org.bukkit.Bukkit;
@@ -21,12 +22,15 @@ public class ChangeWorldListener implements Listener {
                 player.teleport(new Location(Bukkit.getWorld("LOBBY"), 0, 100, 0));
             }
         }
+        ProgressBar.isDone.put(player, false);
         if (player.getWorld().getName().contains("TAKESHI")) {
             if (Takeshi.instance.getBar().getBarPlayer1().getPlayers().isEmpty()) Takeshi.instance.getBar().addPlayer1(player);
             else if (Takeshi.instance.getBar().getBarPlayer2().getPlayers().isEmpty()) Takeshi.instance.getBar().addPlayer2(player);
         } else {
-            if (Takeshi.instance.getBar().getBarPlayer1().getPlayers().contains(player)) Takeshi.instance.getBar().removePlayer1(player);
-            if (Takeshi.instance.getBar().getBarPlayer2().getPlayers().contains(player)) Takeshi.instance.getBar().removePlayer2(player);
+            Takeshi.instance.getBar().removePlayer1(player);
+            Takeshi.instance.getBar().removePlayer2(player);
+            Takeshi.instance.getBar().removeEndScreen(player);
+            Takeshi.instance.getBar().removeStartScreen(player);
         }
     }
 }

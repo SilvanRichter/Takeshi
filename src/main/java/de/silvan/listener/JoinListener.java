@@ -23,6 +23,8 @@ public class JoinListener implements Listener {
         } else {
             if (Takeshi.instance.getBar().getBarPlayer1().getPlayers().contains(player)) Takeshi.instance.getBar().removePlayer1(player);
             if (Takeshi.instance.getBar().getBarPlayer2().getPlayers().contains(player)) Takeshi.instance.getBar().removePlayer2(player);
+            if (Takeshi.instance.getBar().getBarStart().getPlayers().contains(player)) Takeshi.instance.getBar().removeStartScreen(player);
+            if (Takeshi.instance.getBar().getBarEnd().getPlayers().contains(player)) Takeshi.instance.getBar().removeEndScreen(player);
         }
         event.setJoinMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.GOLD + " joined the game!");
     }

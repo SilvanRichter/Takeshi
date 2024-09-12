@@ -1,5 +1,6 @@
 package de.silvan.listener;
 
+import de.silvan.progressbar.ProgressBar;
 import de.silvan.takeshi.Takeshi;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,8 +12,11 @@ public class QuitListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if (Takeshi.instance.getBar().getBarPlayer1().getPlayers().contains(player)) Takeshi.instance.getBar().removePlayer1(player);
-        if (Takeshi.instance.getBar().getBarPlayer2().getPlayers().contains(player)) Takeshi.instance.getBar().removePlayer2(player);
+        ProgressBar.isDone.put(player, false);
+        Takeshi.instance.getBar().removePlayer1(player);
+        Takeshi.instance.getBar().removePlayer2(player);
+        Takeshi.instance.getBar().removeStartScreen(player);
+        Takeshi.instance.getBar().removeStartScreen(player);
         event.setQuitMessage(ChatColor.DARK_AQUA + player.getName() + ChatColor.GOLD + " left the game!");
     }
 }
