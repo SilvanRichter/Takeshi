@@ -1,5 +1,6 @@
 package de.silvan.commands;
 
+import de.silvan.parkour.Player1Module1;
 import de.silvan.players.Players;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -14,6 +15,8 @@ public class WatchCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
 
+            Player1Module1.start(player);
+            /*
             if (!Players.isWatching.containsKey(player)) {
                 Players.isWatching.put(player, false);
             }
@@ -42,6 +45,8 @@ public class WatchCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "Error in WatchCommand!");
                 }
             }
+
+             */
         } else sender.sendMessage(ChatColor.RED + "You have to be a player to execute this command!");
         return false;
     }
