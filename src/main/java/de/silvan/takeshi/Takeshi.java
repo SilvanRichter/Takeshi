@@ -3,6 +3,8 @@ package de.silvan.takeshi;
 import de.silvan.commands.LobbyCommand;
 import de.silvan.commands.WarpCommand;
 import de.silvan.commands.WatchCommand;
+import de.silvan.commands.startFlappyBird;
+import de.silvan.games.FlappyBird;
 import de.silvan.listener.*;
 import de.silvan.progressbar.ProgressBar;
 import de.silvan.tablist.TablistManager;
@@ -15,12 +17,14 @@ public final class Takeshi extends JavaPlugin {
     public static Takeshi instance;
     private TablistManager tablistManager;
     public ProgressBar bar;
+    public FlappyBird flappyBird;
 
     @Override
     public void onEnable() {
         instance = this;
         tablistManager = new TablistManager();
         bar = new ProgressBar();
+        flappyBird = new FlappyBird();
         bar.createBar();
 
         //TODO: Watch Command to view the other player (just the /spectate command)
@@ -34,6 +38,7 @@ public final class Takeshi extends JavaPlugin {
         pl.registerEvents(new ChangeWorldListener(), this);
         pl.registerEvents(new MoveListener(), this);
         pl.registerEvents(new DamageListener(), this);
+        pl.registerEvents(new FlappyBird(), this);
 
         getCommand("warp").setExecutor(new WarpCommand());
         getCommand("w").setExecutor(new WarpCommand());
@@ -43,6 +48,7 @@ public final class Takeshi extends JavaPlugin {
         getCommand("l").setExecutor(new LobbyCommand());
         getCommand("hub").setExecutor(new LobbyCommand());
         getCommand("watch").setExecutor(new WatchCommand());
+        getCommand("startflappybird").setExecutor(new startFlappyBird());
     }
 
     @Override
