@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.Random;
 
@@ -64,17 +65,6 @@ public class FlappyBird implements Listener {
                 }
             }
         }.runTaskTimer(Takeshi.instance, 0L, 1L);  // Run every tick
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                if (gameStarted) {
-                    generateObstacle(Bukkit.getWorld("TAKESHI_1"));
-                } else {
-                    cancel();
-                }
-            }
-        }.runTaskTimer(Takeshi.instance, 0L, 100L);  // Run every 5 seconds (100 ticks)
     }
 
     public void applyGravity() {
@@ -104,26 +94,13 @@ public class FlappyBird implements Listener {
         player.sendTitle("Game Over", "Your score: " + score, 10, 70, 20);
     }
 
-    public void generateObstacle(World world) {
-        int poleHeight = 20;  // Height of the pole
-        int gapSize = 4;  // Size of the gap
-        int gapPosition = random.nextInt(poleHeight - gapSize);  // Random position for the gap
-
-        for (int y = 0; y < poleHeight; y++) {
-            if (y < gapPosition || y >= gapPosition + gapSize) {
-                Location obstacleLocation = new Location(world, 0, y + 20, 0);  // Adjust y position to fit within the world
-                world.getBlockAt(obstacleLocation).setType(Material.GREEN_CONCRETE);  // Set the block to an obstacle material
-            }
-        }
-    }
-
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         //if (getBlockBelowPlayer(player).getLocation().equals(goldBlock)) {
         if (gameStarted) {
             if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR) {
-                birdArmorStand.setVelocity(birdArmorStand.getVelocity().setY(0.5));  // Jump
+                birdArmorStand.setVelocity(new Vector(0, 0.6, 0));  // Jump
             }
         }
         //}
