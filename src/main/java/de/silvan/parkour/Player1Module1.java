@@ -72,7 +72,6 @@ public class Player1Module1 {
                 if ((player.getLocation().getZ() >= 4) && (player.getLocation().getZ() <= 21)) {
                     String message = "§4RUN!";
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-
                     if (getBlockBelowPlayer(player).getType() == Material.RED_CONCRETE ||
                             getBlockBelowPlayer(player).getType() == Material.PURPUR_STAIRS ||
                             getBlockBelowPlayer(player).getType() == Material.PURPUR_SLAB) {

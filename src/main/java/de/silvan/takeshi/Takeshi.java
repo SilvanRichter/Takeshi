@@ -38,7 +38,7 @@ public final class Takeshi extends JavaPlugin {
         pl.registerEvents(new ChangeWorldListener(), this);
         pl.registerEvents(new MoveListener(), this);
         pl.registerEvents(new DamageListener(), this);
-        pl.registerEvents(new FlappyBird(), this);
+        pl.registerEvents(this.flappyBird, this);
 
         getCommand("warp").setExecutor(new WarpCommand());
         getCommand("w").setExecutor(new WarpCommand());

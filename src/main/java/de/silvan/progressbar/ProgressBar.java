@@ -22,47 +22,36 @@ public class ProgressBar {
     public void addPlayer1(Player player) {
         barPlayer1.addPlayer(player);
     }
-
     public void addPlayer2(Player player) {
         barPlayer1.addPlayer(player);
     }
-
     public void addStartScreen(Player player) {
         barStart.addPlayer(player);
     }
-
     public void addEndScreen(Player player) {
         barEnd.addPlayer(player);
     }
-
     public void removePlayer1(Player player) {
         barPlayer1.removePlayer(player);
     }
-
     public void removePlayer2(Player player) {
         barPlayer1.removePlayer(player);
     }
-
     public void removeStartScreen(Player player) {
         barStart.removePlayer(player);
     }
-
     public void removeEndScreen(Player player) {
         barEnd.removePlayer(player);
     }
-
     public BossBar getBarPlayer1() {
         return barPlayer1;
     }
-
     public BossBar getBarPlayer2() {
         return barPlayer2;
     }
-
     public BossBar getBarStart() {
         return barStart;
     }
-
     public BossBar getBarEnd() {
         return barEnd;
     }
@@ -78,62 +67,87 @@ public class ProgressBar {
         barEnd.setVisible(true);
         cast();
     }
+
     public void cast() {
         final double[] z1 = {0.0};
+        final double[] z2 = {0.0};
         new BukkitRunnable() {
             @Override
             public void run() {
                 //Player 1
-                if (!(Players.getPlayer(0) == null)) {
-                    if (!isDone.containsKey(Players.getPlayer(0))) {
-                        isDone.put(Players.getPlayer(0), false);
-                    }
-                    if (!isDone.get(Players.getPlayer(0))) {
-                        z1[0] = (Players.getPlayer(0).getLocation().getZ()) / 132;
-                         if (z1[0] < 0) {
-                            barPlayer1.setProgress(0.0);
-                            barPlayer1.setTitle(ChatColor.RED + "Fortschritt: " + ChatColor.BLUE + Math.round(z1[0] * 100) + ChatColor.DARK_BLUE + "%");
-                        } else if (Players.getPlayer(0).getLocation().getZ() >= 132) {
-                            isDone.put(Players.getPlayer(0), true);
-                            removePlayer1(Players.getPlayer(0));
-                            addEndScreen(Players.getPlayer(0));
-                        } else if (Players.getPlayer(0).getLocation().getZ() <= 4) {
-                            addStartScreen(Players.getPlayer(0));
-                            removePlayer1(Players.getPlayer(0));
-                        } else {
-                            addPlayer1(Players.getPlayer(0));
-                            removeStartScreen(Players.getPlayer(0));
-                            barPlayer1.setProgress(z1[0]);
-                            barPlayer1.setTitle(ChatColor.RED + "Fortschritt: " + ChatColor.BLUE + Math.round(z1[0] * 100) + ChatColor.DARK_BLUE + "%");
-                        }
-                    }
+                if (Players.getPlayer(0) != null) {
+                    updateBossbar(Players.getPlayer(0), z1, z2);
                 }
                 //Player 2
-                if (!(Players.getPlayer(1) == null)) {
-                    if (!isDone.containsKey(Players.getPlayer(1))) {
-                        isDone.put(Players.getPlayer(1), false);
-                    }
-                    if (!isDone.get(Players.getPlayer(1))) {
-                        z1[0] = (Players.getPlayer(1).getLocation().getZ()) / 132;
-                        if (z1[0] < 0) {
-                            barPlayer2.setProgress(0.0);
-                            barPlayer2.setTitle(ChatColor.RED + "Fortschritt: " + ChatColor.BLUE + Math.round(z1[0] * 100) + ChatColor.DARK_BLUE + "%");
-                        } else if (Players.getPlayer(1).getLocation().getZ() >= 132) {
-                            isDone.put(Players.getPlayer(1), true);
-                            removePlayer2(Players.getPlayer(1));
-                            addEndScreen(Players.getPlayer(1));
-                        } else if (Players.getPlayer(1).getLocation().getZ() <= 4) {
-                            addStartScreen(Players.getPlayer(1));
-                            removePlayer2(Players.getPlayer(1));
-                        } else {
-                            addPlayer2(Players.getPlayer(1));
-                            removeStartScreen(Players.getPlayer(1));
-                            barPlayer2.setProgress(z1[0]);
-                            barPlayer2.setTitle(ChatColor.RED + "Fortschritt: " + ChatColor.BLUE + Math.round(z1[0] * 100) + ChatColor.DARK_BLUE + "%");
-                        }
-                    }
+                if (Players.getPlayer(1) != null) {
+                    updateBossbar(Players.getPlayer(1), z1, z2);
                 }
             }
-        }.runTaskTimer(Takeshi.instance,  0, 0);
+        }.runTaskTimer(Takeshi.instance, 60, 60);
     }
+
+     public void updateBossbar(Player player, double[] z1, double[] z2) {
+        if (player.equals(Players.getPlayer(0))) {
+            z1[0] = (player.getLocation().getZ()) / 132;
+            if (!isDone.containsKey(player)) {
+                Bukkit.broadcastMessage("2");
+                isDone.put(player, false);
+            }
+            if (!isDone.get(player)) {
+                Bukkit.broadcastMessage("3");
+                z1[0] = (player.getLocation().getZ()) / 132;
+                if (z1[0] < 0) {
+                    Bukkit.broadcastMessage("4");
+                    barPlayer1.setProgress(0.0);
+                    barPlayer1.setTitle(ChatColor.RED + "Fortschritt: " + ChatColor.BLUE + Math.round(z1[0] * 100) + ChatColor.DARK_BLUE + "%");
+                } else if (player.getLocation().getZ() >= 132) {
+                    Bukkit.broadcastMessage("6");
+                    isDone.put(player, true);
+                    removePlayer1(player);
+                    addEndScreen(player);
+                } else if (player.getLocation().getZ() <= 4) {
+                    Bukkit.broadcastMessage("7");
+                    addStartScreen(player);
+                    removePlayer1(player);
+                } else {
+                    Bukkit.broadcastMessage("8");
+                    addPlayer1(player);
+                    removeStartScreen(player);
+                    barPlayer1.setProgress(z1[0]);
+                    barPlayer1.setTitle(ChatColor.RED + "Fortschritt: " + ChatColor.BLUE + Math.round(z1[0] * 100) + ChatColor.DARK_BLUE + "%");
+                }
+            }
+        }
+         if (player.equals(Players.getPlayer(1))) {
+             z2[0] = (player.getLocation().getZ()) / 132;
+             if (!isDone.containsKey(player)) {
+                 Bukkit.broadcastMessage("2");
+                 isDone.put(player, false);
+             }
+             if (!isDone.get(player)) {
+                 Bukkit.broadcastMessage("3");
+                 z2[0] = (player.getLocation().getZ()) / 132;
+                 if (z2[0] < 0) {
+                     Bukkit.broadcastMessage("4");
+                     barPlayer2.setProgress(0.0);
+                     barPlayer2.setTitle(ChatColor.RED + "Fortschritt: " + ChatColor.BLUE + Math.round(z2[0] * 100) + ChatColor.DARK_BLUE + "%");
+                 } else if (player.getLocation().getZ() >= 132) {
+                     Bukkit.broadcastMessage("6");
+                     isDone.put(player, true);
+                     removePlayer2(player);
+                     addEndScreen(player);
+                 } else if (player.getLocation().getZ() <= 4) {
+                     Bukkit.broadcastMessage("7");
+                     addStartScreen(player);
+                     removePlayer2(player);
+                 } else {
+                     Bukkit.broadcastMessage("8");
+                     addPlayer2(player);
+                     removeStartScreen(player);
+                     barPlayer2.setProgress(z2[0]);
+                     barPlayer2.setTitle(ChatColor.RED + "Fortschritt: " + ChatColor.BLUE + Math.round(z2[0] * 100) + ChatColor.DARK_BLUE + "%");
+                 }
+             }
+         }
+     }
 }

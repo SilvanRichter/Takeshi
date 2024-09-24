@@ -20,12 +20,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class FlappyBird implements Listener {
+public class SpaceInvaders implements Listener {
 
     private boolean gameStarted;
-    private ArmorStand birdArmorStand;
-    private int score = 0;
-    Location goldBlock = new Location(Bukkit.getWorld("TAKESHI_1"), 7, 104, 56);
+    private ArmorStand shipArmorStand;
+    private int wave = 0;
+    Location goldBlock = new Location(Bukkit.getWorld("TAKESHI_1"), 7, 106, 87);
 
     public void start(Player player) {
         if (gameStarted) {
@@ -35,30 +35,29 @@ public class FlappyBird implements Listener {
         Bukkit.broadcastMessage("Starting!");
         gameStarted = true;
 
-        score = 0;  // Reset score at the start of the game
+        wave = 0;  // Reset score at the start of the game
         Location startLocation = new Location(player.getWorld(), 18, 108, 52);  // Starting location for the bird
 
         // Spawn bird (armor stand)
-        birdArmorStand = (ArmorStand) player.getWorld().spawnEntity(startLocation, EntityType.ARMOR_STAND);
-        birdArmorStand.setInvisible(true);
-        birdArmorStand.setSmall(true);
-        birdArmorStand.setInvulnerable(true);
+        shipArmorStand = (ArmorStand) player.getWorld().spawnEntity(startLocation, EntityType.ARMOR_STAND);
+        shipArmorStand.setInvisible(true);
+        shipArmorStand.setSmall(true);
+        shipArmorStand.setInvulnerable(true);
 
-        // Set player's head on the bird
-        ItemStack birdHead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta skullMeta = (SkullMeta) birdHead.getItemMeta();
+        // Set player's head on the ship
+        ItemStack shipHead = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skullMeta = (SkullMeta) shipHead.getItemMeta();
         skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()));
-        birdHead.setItemMeta(skullMeta);
-        birdArmorStand.setHelmet(birdHead);
+        shipHead.setItemMeta(skullMeta);
+        shipArmorStand.setHelmet(shipHead);
 
-        // Start gravity, collision detection, and obstacle generation tasks
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (gameStarted) {
                     String message = "§4Flappy $bBird$9!";
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-                    checkCollision(player);
+
                 } else {
                     cancel();
                 }
@@ -66,30 +65,8 @@ public class FlappyBird implements Listener {
         }.runTaskTimer(Takeshi.instance, 0L, 1L);  // Run every tick
     }
 
-    public void checkCollision(Player player) {
-        Block blockBelowBird = getBlockBelow(birdArmorStand);
-        if (blockBelowBird.getType() != Material.AIR) {
-            player.sendMessage("Collision detected! Game over.");
-            showGameOverScreen(player);
-            gameStarted = false;
-            birdArmorStand.remove();
-        } else {
-            incrementScore(player);
-        }
-    }
-
-    public void incrementScore(Player player) {
-        score++;
-        // 30 Sekunden → 60 x 30 = 1800
-        if (score >= 1800) {
-            gameStarted = false;
-            showGameOverScreen(player);
-            Bukkit.broadcastMessage("You won!");
-        }
-    }
-
     public void showGameOverScreen(Player player) {
-        player.sendTitle("Game Over", "Your score: " + score, 10, 70, 20);
+        player.sendTitle("Game Over", "The Wave: " + wave, 10, 70, 20);
     }
 
     @EventHandler
@@ -98,10 +75,38 @@ public class FlappyBird implements Listener {
         if (getBlockBelow(player).getLocation().equals(goldBlock)) {
             if (gameStarted) {
                 if (event.getAction() == Action.LEFT_CLICK_AIR) {
-                    birdArmorStand.setVelocity(new Vector(0, 0.6, 0));  // Jump
+                    shoot(player);
                 }
             }
         }
+    }
+
+    public void shoot(Player player) {
+        Location shootLocation = shipArmorStand.getLocation().add(0, 1, 0); // Adjust as needed
+        ArmorStand projectile = (ArmorStand) player.getWorld().spawnEntity(shootLocation, EntityType.ARMOR_STAND);
+        projectile.setInvisible(true);
+        projectile.setSmall(true);
+        projectile.setInvulnerable(true);
+        projectile.setVelocity(new Vector(0, 1, 0)); // Adjust direction and speed as needed
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (projectile.isDead() || !gameStarted) {
+                    projectile.remove();
+                    cancel();
+                } else {
+                    checkProjectileCollision(projectile);
+                }
+            }
+        }.runTaskTimer(Takeshi.instance, 0L, 1L); // Run every tick
+    }
+
+    public void checkProjectileCollision(ArmorStand projectile) {
+        //Block blockAhead = getBlockAhead(projectile);
+        //if (blockAhead.getType() != Material.AIR) {
+        projectile.remove();
+        // Handle collision (e.g., destroy target, increase score)
     }
 
     public Block getBlockBelow(Entity entity) {

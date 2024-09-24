@@ -17,7 +17,7 @@ public class ChangeWorldListener implements Listener {
         Player player = event.getPlayer();
 
         if (player.getWorld() == Bukkit.getWorld("TAKESHI_1")) {
-            if (Bukkit.getWorld("TAKESHI_1").getPlayers().size() >= 2) {
+            if (Bukkit.getWorld("TAKESHI_1").getPlayers().size() > 2) {
                 player.sendMessage(ChatColor.RED + "There are already 2 players on this Takeshi Map. You have been teleported to the lobby.");
                 player.teleport(new Location(Bukkit.getWorld("LOBBY"), 0, 100, 0));
             }
