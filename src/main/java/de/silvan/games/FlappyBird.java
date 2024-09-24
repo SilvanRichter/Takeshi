@@ -56,7 +56,7 @@ public class FlappyBird implements Listener {
             @Override
             public void run() {
                 if (gameStarted) {
-                    String message = "§4Flappy $bBird$9!";
+                    String message = "§4Flappy §bBird§9!";
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
                     checkCollision(player);
                 } else {
