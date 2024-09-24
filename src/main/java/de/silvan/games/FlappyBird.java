@@ -1,11 +1,10 @@
 package de.silvan.games;
 
 import de.silvan.takeshi.Takeshi;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -20,11 +19,14 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.Random;
+
 public class FlappyBird implements Listener {
 
-    private boolean gameStarted;
+    private boolean gameStarted = false;
     private ArmorStand birdArmorStand;
     private int score = 0;
+    private Random random = new Random();
     Location goldBlock = new Location(Bukkit.getWorld("TAKESHI_1"), 7, 104, 56);
 
     public void start(Player player) {
@@ -32,15 +34,15 @@ public class FlappyBird implements Listener {
             player.sendMessage("The game is already running!");
             return;
         }
-        Bukkit.broadcastMessage("Starting!");
-        gameStarted = true;
 
+        gameStarted = true;
         score = 0;  // Reset score at the start of the game
-        Location startLocation = new Location(player.getWorld(), 18, 108, 52);  // Starting location for the bird
+        Location startLocation = new Location(player.getWorld(), 0, 60, 0);  // Starting location for the bird
 
         // Spawn bird (armor stand)
         birdArmorStand = (ArmorStand) player.getWorld().spawnEntity(startLocation, EntityType.ARMOR_STAND);
         birdArmorStand.setInvisible(true);
+        birdArmorStand.setGravity(false);  // We'll simulate gravity ourselves
         birdArmorStand.setSmall(true);
         birdArmorStand.setInvulnerable(true);
 
@@ -56,8 +58,7 @@ public class FlappyBird implements Listener {
             @Override
             public void run() {
                 if (gameStarted) {
-                    String message = "§4Flappy $bBird$9!";
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+                    applyGravity();
                     checkCollision(player);
                 } else {
                     cancel();
@@ -66,8 +67,14 @@ public class FlappyBird implements Listener {
         }.runTaskTimer(Takeshi.instance, 0L, 1L);  // Run every tick
     }
 
+    public void applyGravity() {
+        Location currentLocation = birdArmorStand.getLocation();
+        Location newLocation = currentLocation.subtract(0, 0.1, 0);  // Move the bird downwards
+        birdArmorStand.teleport(newLocation);
+    }
+
     public void checkCollision(Player player) {
-        Block blockBelowBird = getBlockBelow(birdArmorStand);
+        Block blockBelowBird = getBlockBelowPlayer(birdArmorStand);
         if (blockBelowBird.getType() != Material.AIR) {
             player.sendMessage("Collision detected! Game over.");
             showGameOverScreen(player);
@@ -80,12 +87,7 @@ public class FlappyBird implements Listener {
 
     public void incrementScore(Player player) {
         score++;
-        // 30 Sekunden → 60 x 30 = 1800
-        if (score >= 1800) {
-            gameStarted = false;
-            showGameOverScreen(player);
-            Bukkit.broadcastMessage("You won!");
-        }
+        player.sendMessage("Score: " + score);
     }
 
     public void showGameOverScreen(Player player) {
@@ -95,16 +97,16 @@ public class FlappyBird implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        if (getBlockBelow(player).getLocation().equals(goldBlock)) {
-            if (gameStarted) {
-                if (event.getAction() == Action.LEFT_CLICK_AIR) {
-                    birdArmorStand.setVelocity(new Vector(0, 0.6, 0));  // Jump
-                }
+        //if (getBlockBelowPlayer(player).getLocation().equals(goldBlock)) {
+        if (gameStarted) {
+            if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_AIR) {
+                birdArmorStand.setVelocity(new Vector(0, 0.6, 0));  // Jump
             }
         }
+        //}
     }
 
-    public Block getBlockBelow(Entity entity) {
+    public Block getBlockBelowPlayer(Entity entity) {
         Location playerLocation = new Location(entity.getLocation().getWorld(),
                 entity.getLocation().getBlockX(), entity.getLocation().getBlockY(), entity.getLocation().getBlockZ());
         Location blockBelowLocation = playerLocation.subtract(0, 1, 0);
