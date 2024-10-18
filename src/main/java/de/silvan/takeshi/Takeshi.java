@@ -1,9 +1,7 @@
 package de.silvan.takeshi;
 
-import de.silvan.commands.LobbyCommand;
-import de.silvan.commands.WarpCommand;
-import de.silvan.commands.WatchCommand;
-import de.silvan.commands.startFlappyBird;
+import de.silvan.chechpointsystem.CheckPointSystem;
+import de.silvan.commands.*;
 import de.silvan.games.FlappyBird;
 import de.silvan.listener.*;
 import de.silvan.progressbar.ProgressBar;
@@ -18,6 +16,7 @@ public final class Takeshi extends JavaPlugin {
     private TablistManager tablistManager;
     public ProgressBar bar;
     public FlappyBird flappyBird;
+    public CheckPointSystem checkPointSystem;
 
     @Override
     public void onEnable() {
@@ -25,19 +24,20 @@ public final class Takeshi extends JavaPlugin {
         tablistManager = new TablistManager();
         bar = new ProgressBar();
         flappyBird = new FlappyBird();
+        checkPointSystem = new CheckPointSystem();
         bar.createBar();
 
         //TODO: Watch Command to view the other player (just the /spectate command)
         //TODO: Start System
+        //TODO: Add "CheckPoint wand" to the player's inv
         //TODO: Checkpoint System
-        //TODO: Back to last checkpoint item
-        //TODO: Action Blocks
 
         PluginManager pl = Bukkit.getPluginManager();
         pl.registerEvents(new JoinListener(), this);
         pl.registerEvents(new ChangeWorldListener(), this);
         pl.registerEvents(new MoveListener(), this);
         pl.registerEvents(new DamageListener(), this);
+        pl.registerEvents(new InteractListener(), this);
         pl.registerEvents(this.flappyBird, this);
 
         getCommand("warp").setExecutor(new WarpCommand());
@@ -48,7 +48,9 @@ public final class Takeshi extends JavaPlugin {
         getCommand("l").setExecutor(new LobbyCommand());
         getCommand("hub").setExecutor(new LobbyCommand());
         getCommand("watch").setExecutor(new WatchCommand());
-        getCommand("startflappybird").setExecutor(new startFlappyBird());
+        getCommand("startflappybird").setExecutor(new StartFlappyBird());
+        getCommand("start").setExecutor(new StartCommand());
+        getCommand("joingame").setExecutor(new JoinGameCommand());
     }
 
     @Override

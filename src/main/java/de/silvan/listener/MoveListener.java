@@ -122,7 +122,7 @@ public class MoveListener implements Listener {
                 if (getBlockBelowPlayer(player).getLocation().equals(player2Emerald5)) {
                     player.setVelocity(new Vector(-0.18, 0.8, 3.35));
                 }
-                    break;
+                break;
         }
     }
     public Block getBlockBelowPlayer(Player player) {
