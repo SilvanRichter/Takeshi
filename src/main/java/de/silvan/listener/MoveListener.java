@@ -2,6 +2,7 @@ package de.silvan.listener;
 
 import de.silvan.parkour.Player1Module1;
 import de.silvan.players.Players;
+import de.silvan.takeshi.Takeshi;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -18,7 +19,6 @@ public class MoveListener implements Listener {
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
-        /*
         if (player.getWorld().equals(Bukkit.getWorld("TAKESHI_1")) || player.getWorld().equals(Bukkit.getWorld("LOBBY"))) {
             if (!(player.getGameMode() == GameMode.CREATIVE) || !(player.getGameMode() == GameMode.SPECTATOR)) {
                 switch (player.getWorld().getName()) {
@@ -28,19 +28,12 @@ public class MoveListener implements Listener {
                         break;
                     case "TAKESHI_1":
                         if (player.getLocation().getY() <= 102) {
-                            if (player == Players.getPlayer(0)) {
-                                player.teleport(new Location(Bukkit.getWorld("TAKESHI_1"), 3.5, 103, 1.5));
-                            }
-                            if (player == Players.getPlayer(1)) {
-                                player.teleport(new Location(Bukkit.getWorld("TAKESHI_1"), 3.5, 103, 1.5));
-                            }
+                            Takeshi.instance.checkPointSystem.getLastCheckPoint(player);
                         }
                         break;
                 }
             }
         }
-
-         */
 
         Location player1LapisLazuli1 = new Location(Bukkit.getWorld("TAKESHI_1"), 3, 107, 29);
         Location player1LapisLazuli2 = new Location(Bukkit.getWorld("TAKESHI_1"), 0, 106, 54);
@@ -121,6 +114,14 @@ public class MoveListener implements Listener {
                 }
                 if (getBlockBelowPlayer(player).getLocation().equals(player2Emerald5)) {
                     player.setVelocity(new Vector(-0.18, 0.8, 3.35));
+                }
+                break;
+            case AMETHYST_BLOCK:
+                if (getBlockBelowPlayer(player).getLocation().equals(Takeshi.instance.checkPointSystem.checkPoint0)) {
+                    Takeshi.instance.checkPointSystem.lastCheckPoint.put(player, Takeshi.instance.checkPointSystem.checkPoint0);
+                }
+                if (getBlockBelowPlayer(player).getLocation().equals(Takeshi.instance.checkPointSystem.checkPoint0)) {
+                    Takeshi.instance.checkPointSystem.lastCheckPoint.put(player, Takeshi.instance.checkPointSystem.checkPoint0);
                 }
                 break;
         }
