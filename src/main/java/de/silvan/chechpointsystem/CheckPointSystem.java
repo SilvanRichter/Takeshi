@@ -19,9 +19,9 @@ public class CheckPointSystem {
     public Location checkPoint3 = new Location(Bukkit.getWorld("TAKESHI_1"), 1.5, 107,96.5, -72, 15);
 
     public Location checkPoint4 = new Location(Bukkit.getWorld("TAKESHI_1"), -6.5, 106,27.5, -10, 10);
-    public Location checkPoint6 = new Location(Bukkit.getWorld("TAKESHI_1"), -4.5, 107,74.5, 0, 0);
-    public Location checkPoint7 = new Location(Bukkit.getWorld("TAKESHI_1"), -4.5, 108, 94.5, 30, 10);
-    public Location checkPoint8 = new Location(Bukkit.getWorld("TAKESHI_1"), -3.5, 108,74.5, 180, 0);
+    public Location checkPoint5 = new Location(Bukkit.getWorld("TAKESHI_1"), -4.5, 107,74.5, 0, 0);
+    public Location checkPoint6 = new Location(Bukkit.getWorld("TAKESHI_1"), -4.5, 108, 94.5, 30, 10);
+    public Location checkPoint7 = new Location(Bukkit.getWorld("TAKESHI_1"), -3.5, 108,74.5, 180, 0);
 
     public Location getLastCheckPoint(Player player) {
         return lastCheckPoint.get(player);
@@ -40,9 +40,6 @@ public class CheckPointSystem {
                 lastCheckPoint.put(player, start1);
             }
         }
-        player.teleport(lastCheckPoint.get(player));
-
-
-
+        player.teleport(getLastCheckPoint(player));
     }
 }
