@@ -13,41 +13,38 @@ import org.bukkit.util.Vector;
 
 public class MoveListener implements Listener {
 
-
-
-
-
-
-
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();
 
         if (player.getWorld().equals(Bukkit.getWorld("TAKESHI_1")) || player.getWorld().equals(Bukkit.getWorld("LOBBY"))) {
-            if (!(player.getGameMode() == GameMode.CREATIVE) || !(player.getGameMode() == GameMode.SPECTATOR)) {
+            if (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE) {
                 switch (player.getWorld().getName()) {
                     case "LOBBY":
-                        if (player.getLocation().getY() <= 75)
+                        if (player.getLocation().getY() <= 75) {
                             player.teleport(new Location(Bukkit.getWorld("LOBBY"), 0, 100, 0));
+                            player.sendMessage(ChatColor.DARK_PURPLE + "Don't jump off!");
+                        }
                         break;
                     case "TAKESHI_1":
                         if (player.getLocation().getY() <= 102) {
                             Takeshi.instance.checkPointSystem.teleportToLastCheckPoint(player);
+                            player.sendMessage(ChatColor.DARK_PURPLE + "Be Careful, the floor is invisible lava!");
                         }
                         break;
                 }
             }
         }
 
-        Location checkPoint0 = new Location(Bukkit.getWorld("TAKESHI_1"), 4.5, 105, 35.5);
-        Location checkPoint1 = new Location(Bukkit.getWorld("TAKESHI_1"), 5.5, 105,56.5);
-        Location checkPoint2 = new Location(Bukkit.getWorld("TAKESHI_1"), 3.5, 107,87.5);
-        Location checkPoint3 = new Location(Bukkit.getWorld("TAKESHI_1"), 1.5, 107,96.5);
+        Location checkPoint0 = new Location(Bukkit.getWorld("TAKESHI_1"), 4, 105, 35);
+        Location checkPoint1 = new Location(Bukkit.getWorld("TAKESHI_1"), 5, 105, 56);
+        Location checkPoint2 = new Location(Bukkit.getWorld("TAKESHI_1"), 3, 107, 87);
+        Location checkPoint3 = new Location(Bukkit.getWorld("TAKESHI_1"), 1, 107, 96);
 
-        Location checkPoint4 = new Location(Bukkit.getWorld("TAKESHI_1"), -6.5, 106,27.5);
-        Location checkPoint5 = new Location(Bukkit.getWorld("TAKESHI_1"), -4.5, 107,74.5);
-        Location checkPoint6 = new Location(Bukkit.getWorld("TAKESHI_1"), -4.5, 108, 94.5);
-        Location checkPoint7 = new Location(Bukkit.getWorld("TAKESHI_1"), -3.5, 108,74.5);
+        Location checkPoint4 = new Location(Bukkit.getWorld("TAKESHI_1"), -6, 106, 27);
+        Location checkPoint5 = new Location(Bukkit.getWorld("TAKESHI_1"), -4, 107, 74);
+        Location checkPoint6 = new Location(Bukkit.getWorld("TAKESHI_1"), -4, 108, 94);
+        Location checkPoint7 = new Location(Bukkit.getWorld("TAKESHI_1"), -3, 108, 74);
 
 
         Location player1LapisLazuli1 = new Location(Bukkit.getWorld("TAKESHI_1"), 3, 107, 29);
@@ -134,36 +131,36 @@ public class MoveListener implements Listener {
             case AMETHYST_BLOCK:
                 Bukkit.broadcastMessage("0");
                 if (getBlockBelowPlayer(player).getLocation().equals(checkPoint0)) {
-                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint0);
                     Bukkit.broadcastMessage("1");
+                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint0);
                 }
                 if (getBlockBelowPlayer(player).getLocation().equals(checkPoint1)) {
-                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint1);
                     Bukkit.broadcastMessage("2");
+                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint1);
                 }
                 if (getBlockBelowPlayer(player).getLocation().equals(checkPoint2)) {
-                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint2);
                     Bukkit.broadcastMessage("3");
+                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint2);
                 }
                 if (getBlockBelowPlayer(player).getLocation().equals(checkPoint3)) {
-                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint3);
                     Bukkit.broadcastMessage("4");
+                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint3);
                 }
                 if (getBlockBelowPlayer(player).getLocation().equals(checkPoint4)) {
-                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint4);
                     Bukkit.broadcastMessage("5");
+                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint4);
                 }
                 if (getBlockBelowPlayer(player).getLocation().equals(checkPoint5)) {
-                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint5);
                     Bukkit.broadcastMessage("6");
+                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint5);
                 }
                 if (getBlockBelowPlayer(player).getLocation().equals(checkPoint6)) {
-                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint6);
                     Bukkit.broadcastMessage("7");
+                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint6);
                 }
                 if (getBlockBelowPlayer(player).getLocation().equals(checkPoint7)) {
-                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint7);
                     Bukkit.broadcastMessage("8");
+                    Takeshi.instance.checkPointSystem.setLastCheckPoint(player, Takeshi.instance.checkPointSystem.checkPoint7);
                 }
                 break;
         }

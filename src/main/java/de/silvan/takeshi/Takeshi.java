@@ -27,9 +27,9 @@ public final class Takeshi extends JavaPlugin {
         checkPointSystem = new CheckPointSystem();
         bar.createBar();
 
-        //TODO: Watch Command to view the other player (just the /spectate command)
+        //TODO: Watch Compass to view the other player (just the /spectate command)
         //TODO: Start System
-        //TODO: Add "CheckPoint wand" to the player's inv
+        //TODO: Add "CheckPoint Wand" and "Watch Compass" to the player's inv
         //TODO: Checkpoint System
 
         PluginManager pl = Bukkit.getPluginManager();
@@ -51,11 +51,6 @@ public final class Takeshi extends JavaPlugin {
         getCommand("startflappybird").setExecutor(new StartFlappyBird());
         getCommand("start").setExecutor(new StartCommand());
         getCommand("joingame").setExecutor(new JoinGameCommand());
-    }
-
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
     }
 
     public TablistManager getTablistManager() {
