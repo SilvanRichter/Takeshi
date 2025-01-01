@@ -31,6 +31,7 @@ public final class Takeshi extends JavaPlugin {
         //TODO: Start System
         //TODO: Add "CheckPoint wand" to the player's inv
         //TODO: Checkpoint System
+        //TODO: Progressbar faulty
 
         PluginManager pl = Bukkit.getPluginManager();
         pl.registerEvents(new JoinListener(), this);

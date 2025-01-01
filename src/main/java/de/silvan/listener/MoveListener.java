@@ -13,12 +13,6 @@ import org.bukkit.util.Vector;
 
 public class MoveListener implements Listener {
 
-
-
-
-
-
-
     @EventHandler
     public void onMove(PlayerMoveEvent event) {
         Player player = event.getPlayer();

@@ -2,6 +2,7 @@ package de.silvan.chechpointsystem;
 
 import de.silvan.players.Players;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -32,6 +33,19 @@ public class CheckPointSystem {
     }
 
     public void teleportToLastCheckPoint(Player player) {
+        Location lastCheckPoint = this.lastCheckPoint.get(player);
+        if (start0.getWorld() == null) player.sendMessage("start0.getWorld() is null");
+        if (lastCheckPoint != null && lastCheckPoint.getWorld() != null) {
+            player.teleport(lastCheckPoint);
+        } else {
+            player.sendMessage("Error: Line 39, CheckPointSystem.java");
+            player.sendMessage("lastCheckPoint = start0");
+            lastCheckPoint = start0;
+            if (lastCheckPoint == null) player.sendMessage("lastCheckPoint = null"); else player.sendMessage(ChatColor.RED + lastCheckPoint.toString());
+            if (lastCheckPoint.getWorld() == null) player.sendMessage("lastCheckPoint.getWorld() = null"); else player.sendMessage(ChatColor.GREEN + lastCheckPoint.getWorld().getName());
+        }
+    }
+    public void tp(Player player) {
         if (lastCheckPoint.get(player) == null) {
             if (Players.getPlayer(0).equals(player)) {
                 lastCheckPoint.put(player, start0);
