@@ -14,8 +14,6 @@ public class WatchCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-
-            Player1Module1.start(player);
             /*
             if (!Players.isWatching.containsKey(player)) {
                 Players.isWatching.put(player, false);

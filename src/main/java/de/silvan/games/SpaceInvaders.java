@@ -40,7 +40,7 @@ public class SpaceInvaders implements Listener {
 
         // Spawn bird (armor stand)
         shipArmorStand = (ArmorStand) player.getWorld().spawnEntity(startLocation, EntityType.ARMOR_STAND);
-        shipArmorStand.setInvisible(true);
+        shipArmorStand.setInvisible(false);
         shipArmorStand.setSmall(true);
         shipArmorStand.setInvulnerable(true);
 
@@ -55,7 +55,7 @@ public class SpaceInvaders implements Listener {
             @Override
             public void run() {
                 if (gameStarted) {
-                    String message = "§4Flappy $bBird$9!";
+                    String message = "§4Space Invaders$9!";
                     player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
 
                 } else {
@@ -84,7 +84,7 @@ public class SpaceInvaders implements Listener {
     public void shoot(Player player) {
         Location shootLocation = shipArmorStand.getLocation().add(0, 1, 0); // Adjust as needed
         ArmorStand projectile = (ArmorStand) player.getWorld().spawnEntity(shootLocation, EntityType.ARMOR_STAND);
-        projectile.setInvisible(true);
+        projectile.setInvisible(false);
         projectile.setSmall(true);
         projectile.setInvulnerable(true);
         projectile.setVelocity(new Vector(0, 1, 0)); // Adjust direction and speed as needed
@@ -103,10 +103,21 @@ public class SpaceInvaders implements Listener {
     }
 
     public void checkProjectileCollision(ArmorStand projectile) {
-        //Block blockAhead = getBlockAhead(projectile);
-        //if (blockAhead.getType() != Material.AIR) {
-        projectile.remove();
-        // Handle collision (e.g., destroy target, increase score)
+        Block blockAhead = getBlockAhead(projectile);
+        if (blockAhead.getType() != Material.AIR) {
+            projectile.remove();
+
+            // Handle collision -> set the head to an explosion head,
+            // create a particle explosion and then remove the head and increment the score
+        }
+    }
+
+    public Block getBlockAhead(Entity entity) {
+        Location playerLocation = new Location(entity.getLocation().getWorld(),
+                entity.getLocation().getBlockX(), entity.getLocation().getBlockY(), entity.getLocation().getBlockZ());
+        Location blockBelowLocation = playerLocation.add(0, 1, 0);
+        Block blockBelow = blockBelowLocation.getBlock();
+        return blockBelow;
     }
 
     public Block getBlockBelow(Entity entity) {

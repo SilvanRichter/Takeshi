@@ -86,8 +86,7 @@ public class ProgressBar {
         }.runTaskTimer(Takeshi.instance, 0, 0);
     }
 
-     public void updateBossbar(Player player, double[] z1, double[] z2) {
-        if (player.equals(Players.getPlayer(0))) {
+     public void updateBossbar(Player player, double[] z1, double[] z2) {if (player.equals(Players.getPlayer(0))) {
             z1[0] = (player.getLocation().getZ()) / 132;
             if (!isDone.containsKey(player)) {
                 isDone.put(player, false);
